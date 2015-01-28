@@ -408,7 +408,8 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
             handled = super.onTouchEvent(event);
         }
 
-        if (isFocused() && text != null && lastLayout != null && action == MotionEvent.ACTION_UP) {
+        // removed isFocused() check - allows user to tap tokens without focus on view
+        if (text != null && lastLayout != null && action == MotionEvent.ACTION_UP) {
 
             int offset;
             if (Build.VERSION.SDK_INT < 14) {
