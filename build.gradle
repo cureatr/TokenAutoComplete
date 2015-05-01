@@ -24,6 +24,11 @@ android {
         java.srcDirs = ['library/src/main/java']
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
 }
 
 task jar(type: Jar) {
