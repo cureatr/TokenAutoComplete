@@ -90,7 +90,8 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
     private boolean savingState = false;
     private boolean shouldFocusNext = false;
 
-    char delimiter = '\u00A7'; // Use random unicode character as spacer instead of comma
+    private char delimiter = '\u00A7'; // Use random unicode character as spacer instead of comma
+    private int calcDepthHack = 0;
 
     private void resetListeners() {
         //reset listeners that get discarded when you set text
@@ -260,7 +261,16 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
     }
 
     private float maxTextWidth() {
-        return getWidth() - getPaddingLeft() - getPaddingRight();
+        calcDepthHack++;
+        if (calcDepthHack > 5) {
+            return getWidth();
+        }
+
+        float width = getWidth() - getPaddingLeft() - getPaddingRight();
+
+        calcDepthHack--;
+
+        return width;
     }
 
     boolean inInvalidate = false;
