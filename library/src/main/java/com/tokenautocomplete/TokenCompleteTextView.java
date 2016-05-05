@@ -1113,6 +1113,7 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
         state.tokenClickStyle = tokenClickStyle;
         state.tokenDeleteStyle = deletionStyle;
         state.baseObjects = baseObjects;
+        state.completionText = currentCompletionText();
 
         return state;
     }
@@ -1133,10 +1134,21 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
         allowDuplicates = ss.allowDuplicates;
         tokenClickStyle = ss.tokenClickStyle;
         deletionStyle = ss.tokenDeleteStyle;
+        final String completionText = ss.completionText;
 
         resetListeners();
         for (Object obj: convertSerializableArrayToObjectArray(ss.baseObjects)) {
             addObject(obj);
+        }
+
+        if (!TextUtils.isEmpty(completionText)) {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    Editable text = getText();
+                    text.append(completionText);
+                }
+            });
         }
 
         //This needs to happen after all the objects get added (which also get posted)
@@ -1163,6 +1175,7 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
         TokenClickStyle tokenClickStyle;
         TokenDeleteStyle tokenDeleteStyle;
         ArrayList<Serializable> baseObjects;
+        String completionText;
 
         @SuppressWarnings("unchecked")
         SavedState(Parcel in) {
@@ -1172,6 +1185,7 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
             tokenClickStyle = TokenClickStyle.values()[in.readInt()];
             tokenDeleteStyle = TokenDeleteStyle.values()[in.readInt()];
             baseObjects = (ArrayList<Serializable>)in.readSerializable();
+            completionText = in.readString();
         }
 
         SavedState(Parcelable superState) {
@@ -1186,6 +1200,7 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
             out.writeInt(tokenClickStyle.ordinal());
             out.writeInt(tokenDeleteStyle.ordinal());
             out.writeSerializable(baseObjects);
+            out.writeString(completionText);
         }
 
         @Override
