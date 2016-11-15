@@ -32,7 +32,7 @@ android {
 }
 
 task jar(type: Jar) {
-    dependsOn assembleRelease
+    dependsOn "assembleRelease"
     baseName "tokenautocomplete"
     from fileTree(dir: 'build/classes/release')
 }
