@@ -463,7 +463,6 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
             }
         }
 
-
         if (prefix != null && (selStart < prefix.length() || selEnd < prefix.length())) {
             //Don't let users select the prefix
             setSelection(prefix.length());
@@ -475,7 +474,10 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
                 for (TokenImageSpan span: spans) {
                     int spanEnd = text.getSpanEnd(span);
                     if (selStart <= spanEnd && text.getSpanStart(span) < selStart) {
-                        setSelection(spanEnd + 1);
+                        if (spanEnd == text.length())
+                            setSelection(spanEnd);
+                        else
+                            setSelection(spanEnd + 1);
                         return;
                     }
                 }
