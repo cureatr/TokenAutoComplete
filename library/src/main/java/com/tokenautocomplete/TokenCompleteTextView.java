@@ -126,7 +126,7 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
         setLongClickable(false);
 
         //In theory, get the soft keyboard to not supply suggestions. very unreliable < API 11
-        setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        setInputType(getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
 
         setOnEditorActionListener(this);
         setFilters(new InputFilter[] {new InputFilter() {
@@ -333,7 +333,7 @@ public abstract class TokenCompleteTextView extends MultiAutoCompleteTextView im
             outAttrs.imeOptions &= ~EditorInfo.IME_FLAG_NO_ENTER_ACTION;
         }
 
-        outAttrs.inputType = InputType.TYPE_NULL;
+        //outAttrs.inputType = InputType.TYPE_NULL;
 
         return connection;
     }
